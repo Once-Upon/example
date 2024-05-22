@@ -1,0 +1,5 @@
+{
+  "importOrder": ["^app/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}
