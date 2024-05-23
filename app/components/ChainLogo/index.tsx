@@ -22,7 +22,7 @@ import HoleskyLogo from "../../../public/logos/holesky.png";
 
 import styles from "./styles.module.css";
 
-const LOGO_COMPONENTS = {
+const LOGO_COMPONENTS: any = {
   [CHAINS.Ethereum]: EthereumLogo,
   [CHAINS.EthereumGoerli]: EthereumLogo,
   [CHAINS.EthereumSepolia]: EthereumLogo,
@@ -111,7 +111,7 @@ export default function ChainLogo({
       bottom: 0,
       right: 0,
     }),
-    [testnetSize, testnetOffset]
+    [testnetSize]
   );
 
   return isMainnet ? (

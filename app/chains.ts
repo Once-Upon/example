@@ -106,7 +106,7 @@ export const allTestnetChainIds = [
   ...GOERLI_CHAIN_IDS,
 ];
 
-export const CHAIN_NAMES = {
+export const CHAIN_NAMES: any = {
   [CHAINS.Ethereum]: "Ethereum",
   [CHAINS.EthereumGoerli]: "Ethereum Goerli",
   [CHAINS.EthereumSepolia]: "Ethereum Sepolia",
@@ -155,9 +155,9 @@ export const relatedChains = [
   [CHAINS.Cyber],
 ];
 
-const URL_CHAIN_MAP = {};
+const URL_CHAIN_MAP: { [key: string]: string } = {};
 
-Object.entries(CHAIN_NAMES).forEach(([key, value]) => {
+Object.entries(CHAIN_NAMES).forEach(([key, value]: any) => {
   // Convert the chain name to a URL-friendly format:
   // 1. Replace spaces with hyphens to handle URLs typically using hyphens instead of spaces
   // 2. Convert to lowercase to ensure uniformity and avoid case sensitivity issues in URLs

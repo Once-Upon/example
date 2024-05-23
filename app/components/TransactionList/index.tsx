@@ -23,6 +23,7 @@ export default async function TransactionList() {
   }
   const data = await res.json();
   // console.log("cursor", data.cursor);
+
   const transactions = data.transactions;
 
   return (

@@ -14,7 +14,15 @@ const NFTImage = ({ img }: { img: string }) => {
 
   const [imgError, setImgError] = useState(false);
 
-  const Img = ({ src, onError, ...props }) => (
+  const Img = ({
+    src,
+    onError,
+    ...props
+  }: {
+    src: string;
+    onError: () => void;
+    [key: string]: any;
+  }) => (
     // eslint-disable-next-line @next/next/no-img-element
     <img src={src} onError={onError} {...props} alt="" />
   );
