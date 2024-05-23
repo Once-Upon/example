@@ -21,13 +21,11 @@ const space = <>&#8196;</>;
 function ContextSummary({
   tx,
   chainId,
-  isTxDetail = false,
-  isCard = false,
+  parties,
 }: {
   tx: any;
   chainId: number;
-  isTxDetail?: boolean;
-  isCard?: boolean;
+  parties: any;
 }) {
   const context = tx.context;
   const summaryTemplate =
@@ -45,7 +43,7 @@ function ContextSummary({
 
       return (
         <Fragment key={i}>
-          {formatSection(chainId, varContext, i, tx)}
+          {formatSection(chainId, varContext, i, tx, parties)}
 
           {space}
         </Fragment>
@@ -102,7 +100,13 @@ export function ContextActionPill({
   );
 }
 
-function formatSection(chainId: number, section: any, i: number, tx: any) {
+function formatSection(
+  chainId: number,
+  section: any,
+  i: number,
+  tx: any,
+  parties: any
+) {
   const varContext = section;
 
   const varKey = i;
@@ -198,7 +202,7 @@ function formatSection(chainId: number, section: any, i: number, tx: any) {
   }
 
   if (varContext?.type === "address") {
-    const name = getNameForAddress(varContext?.value, tx);
+    const name = getNameForAddress(varContext?.value, parties);
     const isRegularAddress = name.startsWith("0x");
     const isFarcasterName = name.startsWith("@");
 

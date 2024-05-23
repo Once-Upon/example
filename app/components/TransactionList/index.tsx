@@ -11,11 +11,14 @@ export default async function TransactionList() {
 
   const data = await res.json();
   const transactions = data.transactions;
+  const parties = data.partiesEnriched;
 
   return (
     <div>
       {transactions?.length > 0 ? (
-        transactions.map((tx: any) => <TransactionRow key={tx.hash} tx={tx} />)
+        transactions.map((tx: any) => (
+          <TransactionRow parties={parties} key={tx.hash} tx={tx} />
+        ))
       ) : (
         <div />
       )}

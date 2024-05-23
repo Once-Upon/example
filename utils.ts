@@ -47,14 +47,13 @@ export function limitDecimals(numStr: string, limit = 3): string {
   return r;
 }
 //////////////////////////////////////////////////////////////////////////////////////////
-export function getNameForAddress(address: string, tx: any): string {
+export function getNameForAddress(address: string, parties: any): string {
   address = address?.toLowerCase();
 
-  if (!tx || !tx.enrichedParties) {
+  if (!parties) {
     return shortAddress(address);
   }
 
-  const parties = tx.enrichedParties;
   const partyOnAllChains = parties[address];
   const party = getRelevantPartyByChainPriority(partyOnAllChains);
 

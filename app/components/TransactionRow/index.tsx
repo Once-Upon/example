@@ -7,7 +7,7 @@ import ContextSummary from "../ContextSummary";
 import NFTImage from "../NFTImage";
 dayjs.extend(localizedFormat);
 
-const TransactionRow = ({ tx }: any) => {
+const TransactionRow = ({ tx, parties }: any) => {
   const isFailed = !tx.receipt.status;
   const chainId = tx?.chainId as number;
   const date = dayjs.unix(tx.timestamp).format("ll").replace(",", "");
@@ -42,7 +42,7 @@ const TransactionRow = ({ tx }: any) => {
         )}
 
         <div className="flex gap-4 w-full flex-col">
-          <ContextSummary tx={tx} chainId={tx.chainId} />
+          <ContextSummary parties={parties} tx={tx} chainId={tx.chainId} />
 
           <div className="flex items-center gap-1 text-[12px] text-gray-500 leading-[16px]">
             {isFailed && (
