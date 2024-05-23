@@ -1,0 +1,6 @@
+.ChainLogo {
+  overflow: hidden;
+}
+.ChainLogo img {
+  image-rendering: pixelated;
+}
