@@ -10,9 +10,14 @@
   },
   "dependencies": {
     "@once-upon/evm-context": "^1.0.40",
+    "dayjs": "^1.11.11",
+    "ethers": "^5.6.4",
+    "lucide-react": "^0.379.0",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "viem": "^1.21.4",
+    "web3": "^1.10.3"
   },
   "devDependencies": {
     "@types/node": "^20",
