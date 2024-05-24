@@ -29,12 +29,12 @@ const TransactionRow = ({ tx, parties }: any) => {
   const imageUrl = firstAsset?.imageUrl;
 
   return (
-    <div key={tx.hash} className="flex gap-4 p-4 my-4 rounded-lg bg-gray-100">
+    <div key={tx.hash} className="flex gap-4 py-4">
       <div className="flex gap-4 items-center">
         {firstAsset && imageUrl ? (
           <NFTImage img={imageUrl} />
         ) : (
-          <div className="h-[75px] w-[75px] shrink-0 flex justify-center bg-gray-200 items-center rounded-lg transition duration-250">
+          <div className="h-[75px] w-[75px] shrink-0 flex justify-center bg-gray-100 border items-center rounded-lg transition duration-250">
             <span className={`inline-flex items-center gap-[4px] lh`}>
               <FileCode2 size={22} strokeWidth={1.5} absoluteStrokeWidth />
             </span>

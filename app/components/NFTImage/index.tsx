@@ -30,7 +30,7 @@ const NFTImage = ({ img }: { img: string }) => {
   return (
     <div className="w-12 h-12" style={imgStyles}>
       <Img
-        className="object-cover w-10 h-10"
+        className="object-cover w-10 h-10 border"
         style={imgStyles}
         alt=""
         src={imgError ? "/fallback_gradient.webp" : img}
