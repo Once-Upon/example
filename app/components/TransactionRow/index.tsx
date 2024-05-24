@@ -14,11 +14,6 @@ const TransactionRow = ({ tx, parties }: any) => {
   const time = dayjs.unix(tx.timestamp).format("LT");
 
   const category = tx?.context?.summaries?.category || "";
-
-  const type: string =
-    tx.context?.summaries?.en?.title !== ""
-      ? tx.context.summaries.en.title
-      : tx.decode?.name || (tx.sigHash !== "0x" ? tx.sigHash : "--");
   const showProtocol = category.includes("PROTOCOL");
 
   const assets: {
@@ -66,7 +61,7 @@ const TransactionRow = ({ tx, parties }: any) => {
               {showProtocol && (
                 <>
                   <span className="text-[6px]">•</span>
-                  <span>{type}</span>
+                  <span>{tx.context?.summaries?.en?.title}</span>
                 </>
               )}
             </div>
