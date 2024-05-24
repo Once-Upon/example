@@ -1,8 +1,7 @@
+import { CHAINS, orderedChainIds } from "./app/chains";
+import { getAddress, isAddress as isAddressViem } from "viem";
 import { BigNumber } from "ethers";
 import { commify, formatUnits } from "ethers/lib/utils";
-import { CHAINS, orderedChainIds } from "./app/chains";
-import { isAddress as isAddressViem } from "viem";
-import web3 from "web3";
 
 export function truncateMiddle(s: string) {
   if (s.length <= 10) return s;
@@ -108,40 +107,25 @@ export function getRelevantPartyByChainPriority(partyWithChains: any[]): any {
   }
 }
 //////////////////////////////////////////////////////////////////////////////////////////
-export function shortAddress(address: string, previewChars = 3) {
-  if (!address) return "";
+export function shortAddress(fullAddress: string): string {
+  if (!fullAddress) return "";
 
-  const isNFT = address.indexOf("-") > 0;
-  const isAddress = isAddressPrimitive(address);
-  if (isNFT) {
-    return "#" + address.slice(address.indexOf("-") + 1);
-  }
+  const isNFT = fullAddress.includes("-");
+  if (isNFT) return `#${fullAddress.split("-")[1]}`;
+
+  const isAddress = isAddressPrimitive(fullAddress);
   if (isAddress) {
-    const add = formatAddress(address);
-    return previewChars
-      ? `${add.substring(0, previewChars + 2)}...${add.substring(
-          add.length - previewChars,
-          add.length
-        )}`
-      : add;
+    const address = getAddress(fullAddress); // checksum address
+    return `${address.substring(0, 5)}...${address.slice(-3)}`;
   }
-  return previewChars
-    ? `${address.substring(0, previewChars + 3)}...${address.substring(
-        address.length - (previewChars + 1),
-        address.length
-      )}`
-    : address;
+
+  return `${fullAddress.substring(0, 6)}...${fullAddress.slice(-2)}`;
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 export const isAddressPrimitive = (address: string) => isAddressViem(address);
 //////////////////////////////////////////////////////////////////////////////////////////
-export function formatAddress(address: string) {
-  try {
-    return web3.utils.toChecksumAddress(address);
-  } catch {
-    return address;
-  }
-}
+export const formatAddress = (address: string): string => getAddress(address);
+
 //////////////////////////////////////////////////////////////////////////////////////////
 export const getBgColorByCategory = (category: string): string => {
   switch (category) {
