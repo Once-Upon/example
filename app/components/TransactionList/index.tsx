@@ -72,7 +72,7 @@ export default function TransactionList() {
           <button
             className={`flex items-center gap-1 px-[6px] py-[4px] text-xs font-semibold border-[1px] min-w-max rounded-lg justify-center w-[60px] ${
               prevButtonDisabled
-                ? "bg-gray-200 text-gray-400"
+                ? "bg-white text-gray-300"
                 : "cursor-pointer transition duration-200 hover:bg-gray-50 "
             }`}
             onClick={handlePrevious}
@@ -84,7 +84,7 @@ export default function TransactionList() {
           <button
             className={`flex items-center gap-1 px-[6px] py-[4px] text-xs font-semibold border-[1px] min-w-max rounded-lg justify-center w-[60px] ${
               buttonDisabled
-                ? "bg-gray-200 text-gray-400"
+                ? "bg-white text-gray-300"
                 : "cursor-pointer transition duration-200 hover:bg-gray-50 "
             }`}
             onClick={handleNext}

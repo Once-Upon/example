@@ -7,13 +7,7 @@ import {
   getNativeCurrency,
   truncateMiddle,
 } from "@/utils";
-import {
-  AwaitedReactNode,
-  Fragment,
-  JSXElementConstructor,
-  ReactElement,
-  ReactNode,
-} from "react";
+import { Fragment } from "react";
 import FarcasterInline from "../FarcasterInline";
 
 const space = <>&#8196;</>;
@@ -264,11 +258,11 @@ function formatSection(
       <span>
         {name !== " " && (
           <span>
-            <span className="hover:bg-gray-200">{name}</span>
+            <span>{name}</span>
           </span>
         )}{" "}
         {tokenId && (
-          <span className="inline-flex items-center gap-2 font-semibold cursor-pointer hover:bg-gray-200">
+          <span className="inline-flex items-center gap-2 font-semibold">
             {truncateMiddle(` #${tokenId}`)}
           </span>
         )}
