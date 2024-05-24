@@ -46,7 +46,8 @@ export default function TransactionList() {
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
 
   const handleNext = () => {
     setPageNumber(pageNumber + 1);
@@ -66,54 +67,56 @@ export default function TransactionList() {
     buttonDisabled || cursor === null || previousCursors.length === 1;
 
   return (
-    <div className="min-w-full w-full">
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2 items-center">
-          <button
-            className={`flex items-center gap-1 px-[6px] py-[4px] text-xs font-semibold border-[1px] min-w-max rounded-lg justify-center w-[60px] ${
-              prevButtonDisabled
-                ? "bg-white text-gray-300"
-                : "cursor-pointer transition duration-200 hover:bg-gray-50 "
-            }`}
-            onClick={handlePrevious}
-            disabled={prevButtonDisabled}
-          >
-            Previous
-          </button>
+    <div className="flex min-h-screen flex-col items-center justify-between sm:px-32 sm:pb-24">
+      <div className="min-w-full w-full">
+        <div className="flex justify-between items-center border-b pb-2 ">
+          <div className="flex gap-2 items-center">
+            <button
+              className={`flex items-center gap-1 px-[6px] py-[4px] text-xs font-semibold border-[1px] min-w-max rounded-lg justify-center w-[60px] ${
+                prevButtonDisabled
+                  ? "bg-white text-gray-300"
+                  : "cursor-pointer transition duration-200 hover:bg-gray-50 "
+              }`}
+              onClick={handlePrevious}
+              disabled={prevButtonDisabled}
+            >
+              Previous
+            </button>
 
-          <button
-            className={`flex items-center gap-1 px-[6px] py-[4px] text-xs font-semibold border-[1px] min-w-max rounded-lg justify-center w-[60px] ${
-              buttonDisabled
-                ? "bg-white text-gray-300"
-                : "cursor-pointer transition duration-200 hover:bg-gray-50 "
-            }`}
-            onClick={handleNext}
-            disabled={buttonDisabled}
-          >
-            Next
-          </button>
+            <button
+              className={`flex items-center gap-1 px-[6px] py-[4px] text-xs font-semibold border-[1px] min-w-max rounded-lg justify-center w-[60px] ${
+                buttonDisabled
+                  ? "bg-white text-gray-300"
+                  : "cursor-pointer transition duration-200 hover:bg-gray-50 "
+              }`}
+              onClick={handleNext}
+              disabled={buttonDisabled}
+            >
+              Next
+            </button>
+          </div>
+
+          {pageNumber > 0 && (
+            <div className="flex gap-2 items-center">
+              <div className="text-sm font-semibold">Page: {pageNumber}</div>
+            </div>
+          )}
         </div>
 
-        {pageNumber > 0 && (
-          <div className="flex gap-2 items-center">
-            <div className="text-sm font-semibold">Page: {pageNumber}</div>
+        {loading ? (
+          <div className="pt-24 text-center">Loading...</div>
+        ) : transactions.length > 0 ? (
+          <div className="divide-y">
+            {transactions.map((tx: any, idx) => (
+              <TransactionRow parties={parties} key={idx} tx={tx} />
+            ))}
           </div>
+        ) : (
+          initialFetchComplete && (
+            <div className="pt-24 text-center">No transactions available</div>
+          )
         )}
       </div>
-
-      {loading ? (
-        <div className="pt-24 text-center">Loading...</div>
-      ) : transactions.length > 0 ? (
-        <div className="divide-y pt-8">
-          {transactions.map((tx: any, idx) => (
-            <TransactionRow parties={parties} key={idx} tx={tx} />
-          ))}
-        </div>
-      ) : (
-        initialFetchComplete && (
-          <div className="pt-24 text-center">No transactions available</div>
-        )
-      )}
     </div>
   );
 }
