@@ -56,7 +56,7 @@ import {
   HOLESKY_CHAIN_IDS,
   MAINNET_CHAIN_IDS,
   SEPOLIA_CHAIN_IDS,
-} from "@/app/chains";
+} from "@/utils/chains";
 
 export default function ChainLogo({
   chainId = undefined,

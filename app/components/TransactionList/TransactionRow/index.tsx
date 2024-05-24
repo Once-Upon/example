@@ -1,4 +1,4 @@
-import { CHAIN_NAMES } from "@/app/chains";
+import { CHAIN_NAMES } from "@/utils/chains";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { ArrowRight, BadgeAlert, FileCode2 } from "lucide-react";

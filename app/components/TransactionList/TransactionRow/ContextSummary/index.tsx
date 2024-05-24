@@ -1,14 +1,11 @@
-import { CHAIN_NAMES } from "@/app/chains";
-import { AssetType, ContextSummaryType } from "@once-upon/evm-context";
-import {
-  formatToken,
-  getBgColorByCategory,
-  getNameForAddress,
-  getNativeCurrency,
-  getPartyForAddress,
-  truncateMiddle,
-} from "@/utils";
 import { Fragment } from "react";
+import { AssetType, ContextSummaryType } from "@once-upon/evm-context";
+import { CHAIN_NAMES, getNativeCurrency } from "@/utils/chains";
+import { formatToken } from "@/utils/formatToken";
+import { getBgColorByCategory } from "@/utils/getBgColorByCategory";
+import { getNameForAddress } from "@/utils/getNameForAddress";
+import { getPartyForAddress } from "@/utils/getPartyFromAddress";
+import { truncateMiddle } from "@/utils/truncateMiddle";
 import FarcasterInline from "../FarcasterInline";
 
 const space = <>&#8196;</>;
