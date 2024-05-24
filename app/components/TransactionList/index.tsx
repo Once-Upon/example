@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TransactionRow from "../TransactionRow";
+import TransactionRow from "./TransactionRow";
 import PaginationButton from "./PaginationButtons";
 import PageNumber from "./PageNumber";
 
