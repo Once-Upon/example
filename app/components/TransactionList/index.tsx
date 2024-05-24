@@ -69,7 +69,7 @@ export default function TransactionList() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between sm:px-32 sm:pb-24">
       <div className="min-w-full w-full">
-        <div className="flex justify-between items-center border-b pb-2 ">
+        <div className="flex justify-between items-center border-b pb-2">
           <div className="flex gap-2 items-center">
             <button
               className={`flex items-center gap-1 px-[6px] py-[4px] text-xs font-semibold border-[1px] min-w-max rounded-lg justify-center w-[60px] ${
