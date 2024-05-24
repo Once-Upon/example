@@ -6,6 +6,19 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    // This tells PurgeCSS to not remove classes that match the following patterns
+    {
+      pattern:
+        /(bg|text)-(gray|purple)-(50|100|200|300|400|500|600|700|800|900|950)/,
+      variants: ["lg", "hover", "focus", "lg:hover"],
+    },
+    {
+      pattern:
+        /(bg|text)-(blue|red|green|brown|orange|purple|indigo|yellow)(|-(light))/,
+      variants: ["lg", "hover", "focus", "lg:hover"],
+    },
+  ],
   theme: {
     extend: {
       colors: {

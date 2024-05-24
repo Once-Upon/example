@@ -25,15 +25,14 @@ const params = {
   chainIds: [0], // all chains
   contextActions: ["MINTED", "SWAPPED"],
   excludes: [],
-  cursor: null,
 };
 
-const options = {
+const getOptions = (cursor = null) => ({
   method: "POST",
   headers: {
     "Content-Type": "application/json",
   },
-  body: JSON.stringify(params),
-};
+  body: JSON.stringify({ ...params, cursor }),
+});
 
-export { url, options };
+export { url, getOptions };
