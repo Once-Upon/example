@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import TransactionRow from "../TransactionRow";
 import { url, getOptions } from "./config";

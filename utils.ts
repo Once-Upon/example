@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 import { commify, formatUnits } from "ethers/lib/utils";
 import { CHAINS, orderedChainIds } from "./app/chains";
 import { isAddress as isAddressViem } from "viem";
@@ -47,7 +47,7 @@ export function limitDecimals(numStr: string, limit = 3): string {
   return r;
 }
 //////////////////////////////////////////////////////////////////////////////////////////
-export function getNameForAddress(address: string, parties: any): string {
+export function getPartyForAddress(address: string, parties: any) {
   address = address?.toLowerCase();
 
   if (!parties) {
@@ -56,6 +56,11 @@ export function getNameForAddress(address: string, parties: any): string {
 
   const partyOnAllChains = parties[address];
   const party = getRelevantPartyByChainPriority(partyOnAllChains);
+  return party;
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+export function getNameForAddress(address: string, parties: any): string {
+  const party = getPartyForAddress(address, parties);
 
   if (!party) {
     return shortAddress(address);
@@ -102,7 +107,6 @@ export function getRelevantPartyByChainPriority(partyWithChains: any[]): any {
     return parties[0];
   }
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////
 export function shortAddress(address: string, previewChars = 3) {
   if (!address) return "";

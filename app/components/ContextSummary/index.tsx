@@ -5,6 +5,7 @@ import {
   getBgColorByCategory,
   getNameForAddress,
   getNativeCurrency,
+  getPartyForAddress,
   truncateMiddle,
 } from "@/utils";
 import { Fragment } from "react";
@@ -252,7 +253,7 @@ function formatSection(
 
     const contract = varContext.token;
     const tokenId = varContext.tokenId;
-    const name = getNameForAddress(contract, tx);
+    const name = getNameForAddress(contract, parties);
 
     return (
       <span>
@@ -271,12 +272,13 @@ function formatSection(
   }
 
   if (varContext?.type === "erc20") {
-    const party = tx.enrichedParties?.[varContext.token];
+    const party = getPartyForAddress(varContext?.token, parties);
+
     if (party) {
-      const symbolText = getNameForAddress(varContext?.token, tx);
+      const symbolText = getNameForAddress(varContext?.token, parties);
       const decimals =
-        party[0].decimals !== undefined && party[0].decimals !== null
-          ? party[0].decimals
+        party.decimals !== undefined && party.decimals !== null
+          ? party.decimals
           : "18";
       const decimalPlaces = 2;
       const formattedValue = formatToken(
