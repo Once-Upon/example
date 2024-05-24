@@ -104,9 +104,11 @@ export default function TransactionList() {
       {loading ? (
         <div className="pt-24 text-center">Loading...</div>
       ) : transactions.length > 0 ? (
-        transactions.map((tx: any, idx) => (
-          <TransactionRow parties={parties} key={idx} tx={tx} />
-        ))
+        <div className="divide-y pt-8">
+          {transactions.map((tx: any, idx) => (
+            <TransactionRow parties={parties} key={idx} tx={tx} />
+          ))}
+        </div>
       ) : (
         initialFetchComplete && (
           <div className="pt-24 text-center">No transactions available</div>
