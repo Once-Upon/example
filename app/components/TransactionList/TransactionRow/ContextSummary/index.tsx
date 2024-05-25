@@ -1,13 +1,11 @@
-import { CHAIN_NAMES } from "@/app/chains";
-import { AssetType, ContextSummaryType } from "@once-upon/evm-context";
-import {
-  formatToken,
-  getBgColorByCategory,
-  getNameForAddress,
-  getNativeCurrency,
-  truncateMiddle,
-} from "@/utils";
 import { Fragment } from "react";
+import { AssetType, ContextSummaryType } from "@once-upon/evm-context";
+import { CHAIN_NAMES, getNativeCurrency } from "@/utils/chains";
+import { formatToken } from "@/utils/formatToken";
+import { getBgColorByCategory } from "@/utils/getBgColorByCategory";
+import { getNameForAddress } from "@/utils/getNameForAddress";
+import { getPartyForAddress } from "@/utils/getPartyFromAddress";
+import { truncateMiddle } from "@/utils/truncateMiddle";
 import FarcasterInline from "../FarcasterInline";
 
 const space = <>&#8196;</>;
@@ -252,7 +250,7 @@ function formatSection(
 
     const contract = varContext.token;
     const tokenId = varContext.tokenId;
-    const name = getNameForAddress(contract, tx);
+    const name = getNameForAddress(contract, parties);
 
     return (
       <span>
@@ -271,12 +269,13 @@ function formatSection(
   }
 
   if (varContext?.type === "erc20") {
-    const party = tx.enrichedParties?.[varContext.token];
+    const party = getPartyForAddress(varContext?.token, parties);
+
     if (party) {
-      const symbolText = getNameForAddress(varContext?.token, tx);
+      const symbolText = getNameForAddress(varContext?.token, parties);
       const decimals =
-        party[0].decimals !== undefined && party[0].decimals !== null
-          ? party[0].decimals
+        party.decimals !== undefined && party.decimals !== null
+          ? party.decimals
           : "18";
       const decimalPlaces = 2;
       const formattedValue = formatToken(

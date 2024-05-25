@@ -7,7 +7,7 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   safelist: [
-    // This tells PurgeCSS to not remove classes that match the following patterns
+    // this tells PurgeCSS to not remove classes that match the following patterns
     {
       pattern:
         /(bg|text)-(gray|purple)-(50|100|200|300|400|500|600|700|800|900|950)/,
@@ -79,11 +79,6 @@ const config: Config = {
           DEFAULT: "#F0C000",
           light: "#FFFBD1",
         },
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
   },

@@ -1,42 +1,76 @@
 "use client";
+
 import { useState, useEffect } from "react";
-import TransactionRow from "../TransactionRow";
-import { url, getOptions } from "./config";
+import TransactionRow from "./TransactionRow";
+import PaginationButton from "./PaginationButtons";
+import PageNumber from "./PageNumber";
 
 export default function TransactionList() {
-  const [transactions, setTransactions] = useState([]);
-  const [cursor, setCursor] = useState(null);
-  const [pageNumber, setPageNumber] = useState(0);
-  const [previousCursors, setPreviousCursors] = useState([null]);
-  const [parties, setParties] = useState([]);
+  const [data, setData] = useState({
+    transactions: [],
+    cursor: null,
+    parties: [],
+  });
   const [loading, setLoading] = useState(false);
-  const [initialFetchComplete, setInitialFetchComplete] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [previousCursors, setPreviousCursors] = useState([null]);
 
   const fetchTransactions = async (newCursor = null, direction = "next") => {
     setLoading(true);
+
+    const url = `${process.env.NEXT_PUBLIC_ONCE_UPON_NEST_API_URL}/v3/transactions`;
+
+    const params = {
+      contextAddresses: [
+        {
+          address: "0xD19BF5F0B785c6f1F6228C72A8A31C9f383a49c4",
+          toFromAll: "All",
+        },
+        {
+          address: "0x662127bf82b794a26b7ddb6b495f6a5a20b81738",
+          toFromAll: "All",
+        },
+        {
+          address: "0x74B78e98093F5B522A7eBDAc3B994641cA7c2b20",
+          toFromAll: "All",
+        },
+      ],
+      filterAddresses: [],
+      dateRange: {},
+      sort: -1,
+      includes: ["partiesEnriched"],
+      limit: 25,
+      functionSelectors: [],
+      tokenTransfers: [],
+      chainIds: [0], // all chains
+      contextActions: ["MINTED", "SWAPPED"],
+      excludes: [],
+    };
+
+    const getOptions = (cursor = null) => ({
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...params, cursor }),
+    });
+
     const options = getOptions(newCursor);
 
     try {
       const res = await fetch(url, options);
 
-      if (!res.ok) {
-        console.error(await res.json());
-        throw new Error("Failed to fetch data");
-      }
+      if (!res.ok) throw new Error("Failed to fetch data");
 
-      const data = await res.json();
-      if (!initialFetchComplete) setInitialFetchComplete(true);
-      if (pageNumber === 0) setPageNumber(1);
+      const result = await res.json();
 
       if (direction === "next") {
-        if (cursor) setPreviousCursors((prev) => [...prev, newCursor]);
+        if (data.cursor) setPreviousCursors((prev) => [...prev, newCursor]);
       } else {
         setPreviousCursors((prev) => prev.slice(0, -1));
       }
 
-      setCursor(data.cursor);
-      setTransactions(data.transactions);
-      setParties(data.partiesEnriched);
+      setData(result);
     } catch (error) {
       console.error(error);
     } finally {
@@ -51,7 +85,7 @@ export default function TransactionList() {
 
   const handleNext = () => {
     setPageNumber(pageNumber + 1);
-    fetchTransactions(cursor, "next");
+    fetchTransactions(data.cursor, "next");
   };
 
   const handlePrevious = () => {
@@ -62,59 +96,32 @@ export default function TransactionList() {
     }
   };
 
-  const buttonDisabled = loading;
-  const prevButtonDisabled =
-    buttonDisabled || cursor === null || previousCursors.length === 1;
+  const loadingOrEmpty = loading || data.transactions.length === 0;
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between sm:px-32 sm:pb-24">
       <div className="min-w-full w-full">
         <div className="flex justify-between items-center border-b pb-2">
-          <div className="flex gap-2 items-center">
-            <button
-              className={`flex items-center gap-1 px-[6px] py-[4px] text-xs font-semibold border-[1px] min-w-max rounded-lg justify-center w-[60px] ${
-                prevButtonDisabled
-                  ? "bg-white text-gray-300"
-                  : "cursor-pointer transition duration-200 hover:bg-gray-50 "
-              }`}
-              onClick={handlePrevious}
-              disabled={prevButtonDisabled}
-            >
-              Previous
-            </button>
+          <PaginationButton
+            nextDisabled={loadingOrEmpty}
+            prevDisabled={
+              loading || data.cursor === null || previousCursors.length === 1
+            }
+            handleNext={handleNext}
+            handlePrevious={handlePrevious}
+          />
 
-            <button
-              className={`flex items-center gap-1 px-[6px] py-[4px] text-xs font-semibold border-[1px] min-w-max rounded-lg justify-center w-[60px] ${
-                buttonDisabled
-                  ? "bg-white text-gray-300"
-                  : "cursor-pointer transition duration-200 hover:bg-gray-50 "
-              }`}
-              onClick={handleNext}
-              disabled={buttonDisabled}
-            >
-              Next
-            </button>
-          </div>
-
-          {pageNumber > 0 && (
-            <div className="flex gap-2 items-center">
-              <div className="text-sm font-semibold">Page: {pageNumber}</div>
-            </div>
-          )}
+          {pageNumber > 0 && <PageNumber pageNumber={pageNumber} />}
         </div>
 
-        {loading ? (
+        {loadingOrEmpty ? (
           <div className="pt-24 text-center">Loading...</div>
-        ) : transactions.length > 0 ? (
+        ) : (
           <div className="divide-y">
-            {transactions.map((tx: any, idx) => (
-              <TransactionRow parties={parties} key={idx} tx={tx} />
+            {data.transactions.map((tx: any, idx) => (
+              <TransactionRow parties={data.parties} key={idx} tx={tx} />
             ))}
           </div>
-        ) : (
-          initialFetchComplete && (
-            <div className="pt-24 text-center">No transactions available</div>
-          )
         )}
       </div>
     </div>

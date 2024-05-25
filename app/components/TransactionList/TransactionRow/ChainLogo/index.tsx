@@ -1,25 +1,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @next/next/no-img-element */
-import BaseLogo from "../../Logos/base";
-import EthereumLogo from "../../Logos/ethereum";
-import OpLogo from "../../Logos/op";
-import ZoraLogo from "../../Logos/zora";
-import LyraLogo from "../../Logos/lyra";
-import LiskLogo from "../../Logos/lisk";
-import ModeLogo from "../../Logos/mode";
-import OrderlyLogo from "../../Logos/orderly";
-import PGNLogo from "../../Logos/pgn";
-import FrameChainLogo from "../../Logos/framechain";
-import FraxtalLogo from "../../Logos/fraxtal";
-import DegenChainLogo from "../../Logos/degenchain";
-import StackLogo from "../../Logos/stack";
-import GoldLogo from "../../Logos/gold";
-import CyberLogo from "../../Logos/cyber";
-
-import GoerliLogo from "../../../public/logos/goerli.png";
-import SepoliaLogo from "../../../public/logos/sepolia.png";
-import HoleskyLogo from "../../../public/logos/holesky.png";
-
+import BaseLogo from "./logos/base";
+import EthereumLogo from "./logos/ethereum";
+import OpLogo from "./logos/op";
+import ZoraLogo from "./logos/zora";
+import LyraLogo from "./logos/lyra";
+import LiskLogo from "./logos/lisk";
+import ModeLogo from "./logos/mode";
+import OrderlyLogo from "./logos/orderly";
+import PGNLogo from "./logos/pgn";
+import FrameChainLogo from "./logos/framechain";
+import FraxtalLogo from "./logos/fraxtal";
+import DegenChainLogo from "./logos/degenchain";
+import StackLogo from "./logos/stack";
+import GoldLogo from "./logos/gold";
+import CyberLogo from "./logos/cyber";
+import GoerliLogo from "../../../../../public/goerli.png";
+import SepoliaLogo from "../../../../../public/sepolia.png";
+import HoleskyLogo from "../../../../../public/holesky.png";
 import styles from "./styles.module.css";
 
 const LOGO_COMPONENTS: any = {
@@ -58,7 +56,7 @@ import {
   HOLESKY_CHAIN_IDS,
   MAINNET_CHAIN_IDS,
   SEPOLIA_CHAIN_IDS,
-} from "@/app/chains";
+} from "@/utils/chains";
 
 export default function ChainLogo({
   chainId = undefined,

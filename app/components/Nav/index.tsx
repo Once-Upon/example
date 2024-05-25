@@ -1,5 +1,5 @@
 import Image from "next/image";
-import FarcasterIcon from "@/app/Logos/farcaster";
+import FarcasterIcon from "./farcaster";
 import { Github } from "lucide-react";
 
 const Nav = () => {
