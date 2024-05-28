@@ -227,17 +227,6 @@ function formatSection(
   }
 
   if (varContext?.type === "erc721" || varContext?.type === "erc1155") {
-    const fallback = "";
-    let img: string = fallback;
-
-    if (varContext.token) {
-      const addressWithToken = varContext.tokenId
-        ? `${varContext.token}-${varContext.tokenId}`
-        : varContext.token;
-
-      img = assets[addressWithToken]?.imageUrl || fallback;
-    }
-
     const contract = varContext.token;
     const tokenId = varContext.tokenId;
     const name = getNameForAddress(contract, parties);
