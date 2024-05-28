@@ -1,5 +1,6 @@
 import Nav from "./components/Nav";
-import TransactionListServer from "./components/TransactionList/ServerExample/server";
+import TransactionListClient from "./components/TransactionList/examples/Client";
+import TransactionListServer from "./components/TransactionList/examples/Server/server";
 
 export default function Home() {
   return (

@@ -1,5 +1,5 @@
 import TransactionListClient from "./client";
-import { fetchTransactions } from "./fetch";
+import { fetchTransactions } from "../fetchTransactions";
 
 export default async function TransactionList() {
   const data = await fetchTransactions();

@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { TransactionQueryResponse, fetchTransactions } from "./fetch";
-import TransactionRow from "../TransactionRow";
-import PaginationButton from "../PaginationButtons";
-import PageNumber from "../PageNumber";
+import {
+  TransactionQueryResponse,
+  fetchTransactions,
+} from "../fetchTransactions";
+import TransactionRow from "../../TransactionRow";
+import PaginationButton from "../../PaginationButtons";
+import PageNumber from "../../PageNumber";
 
 export default function TransactionListClient({
   txData,
@@ -54,6 +57,7 @@ export default function TransactionListClient({
   return (
     <div className="flex min-h-screen flex-col items-center justify-between sm:px-32 sm:pb-24">
       <div className="min-w-full w-full">
+        <h1>Server-side Rendering</h1>
         <div className="flex justify-between items-center border-b pb-2">
           <PaginationButton
             nextDisabled={loadingOrEmpty}
