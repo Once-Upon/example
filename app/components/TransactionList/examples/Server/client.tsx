@@ -57,7 +57,7 @@ export default function TransactionListClient({
   return (
     <div className="flex min-h-screen flex-col items-center justify-between sm:px-32 sm:pb-24">
       <div className="min-w-full w-full">
-        <h1>Server-side Rendering</h1>
+        <h1 className="pb-2">Server-side Rendering Example</h1>
         <div className="flex justify-between items-center border-b pb-2">
           <PaginationButton
             nextDisabled={loadingOrEmpty}
