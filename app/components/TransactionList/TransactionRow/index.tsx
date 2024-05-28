@@ -5,9 +5,10 @@ import { ArrowRight, BadgeAlert, FileCode2 } from "lucide-react";
 import ChainLogo from "./ChainLogo";
 import ContextSummary from "./ContextSummary";
 import NFTImage from "./NFTImage";
+import { getAssetImageUrl } from "@/utils/getAssetImageUrl";
 dayjs.extend(localizedFormat);
 
-const TransactionRow = ({ tx, parties }: any) => {
+const TransactionRow = ({ tx, parties, assets }: any) => {
   const isFailed = !tx.receipt.status;
   const chainId = tx?.chainId as number;
   const date = dayjs.unix(tx.timestamp).format("ll").replace(",", "");
@@ -15,19 +16,13 @@ const TransactionRow = ({ tx, parties }: any) => {
 
   const category = tx?.context?.summaries?.category || "";
   const showProtocol = category.includes("PROTOCOL");
-
-  const assets: {
-    imageUrl?: string;
-  }[] = Object.values(tx.assetsEnriched);
-
-  const firstAsset = assets[0];
-  const imageUrl = firstAsset?.imageUrl;
+  const imageUrl = getAssetImageUrl(tx, assets);
 
   return (
     <div key={tx.hash} className="flex gap-4 py-4">
       <div className="flex gap-4 items-center justify-between w-full">
         <>
-          {firstAsset && imageUrl ? (
+          {imageUrl ? (
             <NFTImage img={imageUrl} />
           ) : (
             <div className="h-[75px] w-[75px] shrink-0 flex justify-center bg-gray-100 border items-center rounded-lg transition duration-250">
@@ -38,7 +33,12 @@ const TransactionRow = ({ tx, parties }: any) => {
           )}
 
           <div className="flex gap-4 w-full flex-col">
-            <ContextSummary parties={parties} tx={tx} chainId={tx.chainId} />
+            <ContextSummary
+              parties={parties}
+              assets={assets}
+              tx={tx}
+              chainId={tx.chainId}
+            />
 
             <div className="flex items-center gap-1 text-[12px] text-gray-500 leading-[16px]">
               {isFailed && (
