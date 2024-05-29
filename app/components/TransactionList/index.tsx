@@ -1,23 +1,29 @@
 "use client";
 
-import { useState } from "react";
-import {
-  TransactionQueryResponse,
-  fetchTransactions,
-} from "../fetchTransactions";
-import TransactionRow from "../../TransactionRow";
-import PaginationButton from "../../PaginationButtons";
-import PageNumber from "../../PageNumber";
+import { useState, useEffect } from "react";
+import PageNumber from "./PageNumber";
+import PaginationButton from "./PaginationButtons";
+import TransactionRow from "./TransactionRow";
+import { fetchTransactions } from "@/app/examples/fetchTransactions";
+import { TransactionQueryResponse } from "@once-upon/evm-context";
 
 export default function TransactionListClient({
   txData,
+  isServer,
 }: {
   txData: TransactionQueryResponse;
+  isServer: boolean;
 }) {
   const [data, setData] = useState<TransactionQueryResponse>(txData);
   const [loading, setLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [cursors, setCursors] = useState<(string | null)[]>([null]);
+
+  useEffect(() => {
+    if (!isServer) {
+      setData(txData);
+    }
+  }, [txData, isServer]);
 
   const fetchAndSetData = async (
     cursor: string | null,
@@ -52,12 +58,14 @@ export default function TransactionListClient({
     }
   };
 
-  const loadingOrEmpty = loading || data.transactions.length === 0;
+  const loadingOrEmpty = loading || data?.transactions.length === 0;
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between sm:px-32 sm:pb-24">
+    <div className="flex min-h-screen flex-col items-center sm:min-w-1/2 justify-between sm:w-1/2">
       <div className="min-w-full w-full">
-        <h1 className="pb-2">Server-side Rendering Example</h1>
+        <h1 className="pb-2">
+          {isServer ? "Server" : "Client"}-side Rendering Example
+        </h1>
         <div className="flex justify-between items-center border-b pb-2">
           <PaginationButton
             nextDisabled={loadingOrEmpty}
@@ -68,7 +76,6 @@ export default function TransactionListClient({
 
           {pageNumber > 0 && <PageNumber pageNumber={pageNumber} />}
         </div>
-
         {loadingOrEmpty ? (
           <div className="pt-24 text-center">Loading...</div>
         ) : (

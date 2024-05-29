@@ -48,7 +48,7 @@ function ContextSummary({
   });
 
   return (
-    <div className="line-clamp-2 w-full max-h-[42px]">{formattedParts}</div>
+    <div className="line-clamp-2 w-full max-h-[45px]">{formattedParts}</div>
   );
 }
 

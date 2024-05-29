@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@once-upon/evm-context": "^1.0.40",
+    "@once-upon/evm-context": "^1.1.0-0",
     "dayjs": "^1.11.11",
     "ethers": "^5.6.4",
     "lucide-react": "^0.379.0",
