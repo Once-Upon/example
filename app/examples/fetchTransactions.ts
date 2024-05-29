@@ -26,7 +26,6 @@ export async function fetchTransactions(
     includes: ["partiesEnriched", "assetsEnriched"],
     limit: 25,
     functionSelectors: [],
-    tokenTransfers: [],
     chainIds: [0], // all chains
     contextActions: ["MINTED", "SWAPPED"],
     excludes: [],
