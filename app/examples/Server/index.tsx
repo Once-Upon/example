@@ -3,5 +3,5 @@ import { fetchTransactions } from "../fetchTransactions";
 
 export default async function ServerRenderedExample() {
   const data = await fetchTransactions();
-  return <TransactionList txData={data} isServer={true} />;
+  return <TransactionList txData={data} isServer />;
 }

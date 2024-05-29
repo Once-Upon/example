@@ -1,43 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import PageNumber from "./PageNumber";
+import { useState } from "react";
 import PaginationButton from "./PaginationButtons";
 import TransactionRow from "./TransactionRow";
 import { fetchTransactions } from "@/app/examples/fetchTransactions";
 import { TransactionQueryResponse } from "@once-upon/evm-context";
+import Loading from "./Loading";
 
 export default function TransactionListClient({
   txData,
-  isServer,
+  isServer = false,
 }: {
   txData: TransactionQueryResponse;
-  isServer: boolean;
+  isServer?: boolean;
 }) {
-  const [data, setData] = useState<TransactionQueryResponse>(txData);
   const [loading, setLoading] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [cursors, setCursors] = useState<(string | null)[]>([null]);
+  const [data, setData] = useState<TransactionQueryResponse>(txData);
 
-  useEffect(() => {
-    if (!isServer) {
-      setData(txData);
-    }
-  }, [txData, isServer]);
-
-  const fetchAndSetData = async (
-    cursor: string | null,
-    direction: "next" | "previous"
-  ) => {
+  const fetchNextPage = async (cursor: string | null) => {
     setLoading(true);
     try {
-      const result = await fetchTransactions(cursor);
-      if (direction === "next" && data.cursor) {
-        setCursors((prev) => [...prev, cursor]);
-      } else if (direction === "previous") {
-        setCursors((prev) => prev.slice(0, -1));
-      }
-      setData(result);
+      const fetchedData = await fetchTransactions(cursor);
+      setData(fetchedData);
     } catch (error) {
       console.error(error);
     } finally {
@@ -45,41 +29,22 @@ export default function TransactionListClient({
     }
   };
 
-  const handleNext = () => {
-    setPageNumber(pageNumber + 1);
-    fetchAndSetData(data.cursor, "next");
-  };
-
-  const handlePrevious = () => {
-    setPageNumber(pageNumber - 1);
-    if (cursors.length > 1) {
-      const previousCursor = cursors[cursors.length - 2];
-      fetchAndSetData(previousCursor, "previous");
-    }
-  };
-
-  const loadingOrEmpty = loading || data?.transactions.length === 0;
+  const handleClick = () => fetchNextPage(data.cursor);
+  const isLoading = loading || data?.transactions.length === 0;
 
   return (
-    <div className="flex min-h-screen flex-col items-center sm:min-w-1/2 justify-between sm:w-1/2">
+    <div className="flex sm:min-h-screen flex-col items-center sm:min-w-1/2 justify-between sm:w-1/2">
       <div className="min-w-full w-full">
-        <h1 className="pb-2">
-          {isServer ? "Server" : "Client"}-side Rendering Example
-        </h1>
-        <div className="flex justify-between items-center border-b pb-2">
-          <PaginationButton
-            nextDisabled={loadingOrEmpty}
-            prevDisabled={loading || cursors.length === 1}
-            handleNext={handleNext}
-            handlePrevious={handlePrevious}
-          />
-
-          {pageNumber > 0 && <PageNumber pageNumber={pageNumber} />}
+        <div className="border-b pb-2 flex justify-between items-center">
+          <h1 className="pb-2 font-semibold">
+            {isServer ? "Server" : "Client"}-side Rendering Example
+          </h1>
+          <PaginationButton isDisabled={isLoading} onClick={handleClick} />
         </div>
-        {loadingOrEmpty ? (
-          <div className="pt-24 text-center">Loading...</div>
+        {isLoading ? (
+          <Loading />
         ) : (
-          <div className="divide-y">
+          <div className="divide-y max-h-[500px] sm:max-h-full sm:overflow-auto overflow-y-scroll border-b sm:border-none">
             {data.transactions.map((tx, idx) => (
               <TransactionRow
                 tx={tx}

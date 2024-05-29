@@ -27,5 +27,5 @@ export default function ClientRenderedExample() {
     return <div className="pt-24 w-1/2 text-center">Loading...</div>;
   }
 
-  return <TransactionList txData={data} isServer={false} />;
+  return <TransactionList txData={data} />;
 }
