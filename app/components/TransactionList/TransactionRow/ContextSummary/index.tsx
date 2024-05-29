@@ -14,10 +14,12 @@ function ContextSummary({
   tx,
   chainId,
   parties,
+  assets,
 }: {
   tx: any;
   chainId: number;
   parties: any;
+  assets: any;
 }) {
   const context = tx.context;
   const summaryTemplate =
@@ -35,7 +37,7 @@ function ContextSummary({
 
       return (
         <Fragment key={i}>
-          {formatSection(chainId, varContext, i, tx, parties)}
+          {formatSection(chainId, varContext, i, tx, parties, assets)}
 
           {space}
         </Fragment>
@@ -46,7 +48,7 @@ function ContextSummary({
   });
 
   return (
-    <div className="line-clamp-2 w-full max-h-[42px]">{formattedParts}</div>
+    <div className="line-clamp-2 w-full max-h-[45px]">{formattedParts}</div>
   );
 }
 
@@ -97,7 +99,8 @@ function formatSection(
   section: any,
   i: number,
   tx: any,
-  parties: any
+  parties: any,
+  assets: any
 ) {
   const varContext = section;
 
@@ -116,7 +119,6 @@ function formatSection(
     return <span className="font-semibold lh">{varContext?.value}</span>;
   }
 
-  // TODO: Make this non-emphasis version DRY
   if (varContext?.type === "string") {
     return <span className="lh">{varContext?.value}</span>;
   }
@@ -146,7 +148,6 @@ function formatSection(
     );
   }
 
-  // TODO: Make this non-emphasis version DRY
   if (varContext?.type === "number") {
     return (
       <span className="lh">
@@ -167,8 +168,6 @@ function formatSection(
   }
 
   if (varContext?.type === "farcasterID") {
-    // const { data: farcaster } = useFarcasterHandle(varContext?.value);
-    // const name = getUsernameFromFID(varContext?.value, tx);
     const name = varContext?.value;
 
     return (
@@ -224,30 +223,6 @@ function formatSection(
   }
 
   if (varContext?.type === "erc721" || varContext?.type === "erc1155") {
-    const fallback = "";
-    let img: string = fallback; // Initialize img with fallback as default
-
-    // Construct addressWithToken only if varContext.token is present
-    if (varContext.token) {
-      let addressWithToken: string | null = null;
-
-      // If tokenId is present, construct addressWithToken and try to find a matching imageUrl
-      if (varContext.tokenId) {
-        addressWithToken = `${varContext.token}-${varContext.tokenId}`;
-        img = tx.assetsEnriched[addressWithToken]?.imageUrl || fallback;
-      } else {
-        // If tokenId is not present, find the first match in tx.assetsEnriched based on the contract address
-        const assetKeys = Object.keys(tx.assetsEnriched);
-        const foundKey = assetKeys.find((key) =>
-          key.startsWith(`${varContext.token}-`)
-        );
-        if (foundKey) {
-          img = tx.assetsEnriched[foundKey]?.imageUrl || fallback;
-        }
-        // If no matching key is found, img remains set to the fallback
-      }
-    }
-
     const contract = varContext.token;
     const tokenId = varContext.tokenId;
     const name = getNameForAddress(contract, parties);
@@ -295,8 +270,6 @@ function formatSection(
 
   if (varContext?.type === "transaction") {
     return <div>{varContext?.value}</div>;
-
-    // <ContextColumnLink key={varKey} id={varContext?.value} noAvatar />;
   }
 }
 
