@@ -119,7 +119,6 @@ function formatSection(
     return <span className="font-semibold lh">{varContext?.value}</span>;
   }
 
-  // TODO: Make this non-emphasis version DRY
   if (varContext?.type === "string") {
     return <span className="lh">{varContext?.value}</span>;
   }
@@ -149,7 +148,6 @@ function formatSection(
     );
   }
 
-  // TODO: Make this non-emphasis version DRY
   if (varContext?.type === "number") {
     return (
       <span className="lh">
@@ -170,8 +168,6 @@ function formatSection(
   }
 
   if (varContext?.type === "farcasterID") {
-    // const { data: farcaster } = useFarcasterHandle(varContext?.value);
-    // const name = getUsernameFromFID(varContext?.value, tx);
     const name = varContext?.value;
 
     return (
@@ -274,8 +270,6 @@ function formatSection(
 
   if (varContext?.type === "transaction") {
     return <div>{varContext?.value}</div>;
-
-    // <ContextColumnLink key={varKey} id={varContext?.value} noAvatar />;
   }
 }
 
