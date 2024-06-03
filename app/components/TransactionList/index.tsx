@@ -29,7 +29,7 @@ export default function TransactionListClient({
     }
   };
 
-  const handleClick = () => fetchNextPage(data.cursor);
+  const handleClick = () => fetchNextPage(data.nextCursor);
   const isLoading = loading || data?.transactions.length === 0;
 
   return (
