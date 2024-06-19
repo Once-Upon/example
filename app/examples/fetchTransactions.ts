@@ -44,6 +44,6 @@ export async function fetchTransactions(
     return data as TransactionQueryResponse;
   } catch (error) {
     console.error("Error fetching transactions:", error);
-    return { transactions: [], cursor: null };
+    return { transactions: [], nextCursor: null };
   }
 }
